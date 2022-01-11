@@ -1,3 +1,6 @@
+#ifndef __FACTOR_H__
+#define __FACTOR_H__
+
 // Copyright (C) 2022 José Enrique Vilca Campana
 //
 // This program is free software: you can redistribute it and/or modify
@@ -13,34 +16,23 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-// #include <iostream>
-#include "src/ruffini/App.cpp"
-// #include <configuration.h>
+#include "./Monomial.hpp"
 
-using namespace std;
-
-// int main(int argc, char *argv[])
-int main()
+class Factor
 {
-	// cout << "The number of arguments is:" << argc << endl;
-	// cout << "The arguments are:";
+private:
+	// Monomial m_monomial(1, 'x', 1);
+	Monomial m_monomial;
+	int m_independent_term;
 
-	// for (unsigned i = 1; i < argc; i++)
-	// {
-	// 	cout << argv[i];
-	// }
-	// cout << endl;
+public:
+	Factor(const Monomial t_monomial, const int &t_independent_term);
+};
 
-	App app;
-	// App app(argc, argv);
-
-	app.set_app_name("ruffini");
-	app.set_app_version("1.0.0");
-	// app.set_auto_print_help(true);
-
-	app.set_app_description("Decompose polynomials through the ruffini method");
-	app.start();
-	// app.print_monomials();
-
-	return 0;
+Factor::Factor(const Monomial t_monomial, const int &t_independent_term)
+{
+	m_monomial = t_monomial;
+	m_independent_term = t_independent_term;
 }
+
+#endif // __FACTOR_H__

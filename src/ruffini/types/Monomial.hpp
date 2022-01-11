@@ -1,3 +1,6 @@
+#ifndef __MONOMIAL_H__
+#define __MONOMIAL_H__
+
 // Copyright (C) 2022 José Enrique Vilca Campana
 //
 // This program is free software: you can redistribute it and/or modify
@@ -18,16 +21,22 @@
 
 class Monomial
 {
+private:
+	void set_member_vars(const int &t_coefficient,
+						 const char &t_base, const int &t_power);
+	// evaluate_str_number(int &t_sign, std::string &t_str_number);
 public:
 	int m_coefficient{};
 	char m_base{};
 	int m_power{};
 	// int &m_order{m_power};
 
+	Monomial() {}
 	Monomial(const int &t_coefficient);
 	Monomial(const char &t_base);
 	Monomial(const char &t_base, const int &t_power);
 	Monomial(const int &t_coefficient, const char &t_base, const int &t_power);
+	Monomial(const Monomial &t_monomial);
 	// // string version
 	// Monomial(const std::string &t_coefficient);
 	// Monomial(const char &t_base, const std::string &t_power);
@@ -46,12 +55,15 @@ public:
 	// 		 char &t_base, const std::string &t_power);
 	// Monomial(const std::string &t_coefficient,
 	// 		 char &t_base, const int &t_power);
-
-private:
-	void set_member_vars(const int &t_coefficient,
-						 const char &t_base, const int &t_power);
-	// evaluate_str_number(int &t_sign, std::string &t_str_number);
 };
+
+// Monomial::Monomial() {}
+Monomial::Monomial(const Monomial &t_monomial)
+{
+	m_coefficient = t_monomial.m_coefficient;
+	m_base = t_monomial.m_base;
+	m_power = t_monomial.m_power;
+}
 
 Monomial::Monomial(const int &t_coefficient)
 {
@@ -165,3 +177,5 @@ void Monomial::set_member_vars(const int &t_coefficient,
 // 		t_str_number = t_str_number.substr(1);
 // 	}
 // }
+
+#endif // __MONOMIAL_H__

@@ -1,5 +1,4 @@
-#ifndef __APP_H__
-#define __APP_H__
+
 
 // Copyright (C) 2022 José Enrique Vilca Campana
 //
@@ -16,80 +15,65 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <string>
+// the following are UBUNTU/LINUX, and MacOS ONLY terminal color codes.
+#define RESET "\033[0m"
+#define BLACK "\033[30m"			  /* Black */
+#define RED "\033[31m"				  /* Red */
+#define GREEN "\033[32m"			  /* Green */
+#define YELLOW "\033[33m"			  /* Yellow */
+#define BLUE "\033[34m"				  /* Blue */
+#define MAGENTA "\033[35m"			  /* Magenta */
+#define CYAN "\033[36m"				  /* Cyan */
+#define WHITE "\033[37m"			  /* White */
+#define BOLDBLACK "\033[1m\033[30m"	  /* Bold Black */
+#define BOLDRED "\033[1m\033[31m"	  /* Bold Red */
+#define BOLDGREEN "\033[1m\033[32m"	  /* Bold Green */
+#define BOLDYELLOW "\033[1m\033[33m"  /* Bold Yellow */
+#define BOLDBLUE "\033[1m\033[34m"	  /* Bold Blue */
+#define BOLDMAGENTA "\033[1m\033[35m" /* Bold Magenta */
+#define BOLDCYAN "\033[1m\033[36m"	  /* Bold Cyan */
+#define BOLDWHITE "\033[1m\033[37m"	  /* Bold White */
+
+// library header
+#include <ruffini/App.hpp>
+
+// standard libraries
 #include <iostream>
-#include <vector>
-#include "types/Monomial.hpp"
-// #include "types/Binomial.hpp"
-// #include "types/Factor.hpp"
 
-class App
-{
-private:
-	std::string m_name{""};
-	std::string m_version{""};
-	std::string m_description{""};
+using namespace std;
 
-	void analyze_expression(const std::string &t_polynomial);
-	std::vector<Monomial> tokenizationn(const std::string &t_polynomial);
-	// void add_ch(char t_ch,
-	// 			const bool &t_reading_coefficient, const bool &t_reading_power,
-	// 			std::string &t_coefficient, std::string &t_power);
-	// void ruffini_factorization(std::vector<Monomial> t_monomials, int t_terms[]);
-	void ruffini_factorization(int t_coefficients[], const std::size_t t_size,
-							   int *t_answer_arr);
-	void print_ruffini_table(int t_i, int t_coefficients[], std::size_t t_size, int *t_answer_arr);
-
-public:
-	App();
-	// App(int argc, char *argv[]);
-	void set_app_name(const std::string &t_name);
-	// void set_app_name(char t_name[]);
-	void set_app_version(const std::string &t_version);
-	// void set_app_version(char t_version[]);
-	// void set_auto_print_help(bool);
-	void set_app_description(const std::string &t_description);
-	// void set_app_description(char t_description[]);
-	void start();
-	void print_monomials(std::vector<Monomial> &t_monomials);
-};
-
-void App::set_app_name(const std::string &t_name)
+void ruffini_p::App::set_app_name(const string &t_name)
 {
 	m_name = t_name;
 }
-void App::set_app_version(const std::string &t_version)
+void ruffini_p::App::set_app_version(const string &t_version)
 {
 	m_version = t_version;
 }
-void App::set_app_description(const std::string &t_description)
+void ruffini_p::App::set_app_description(const string &t_description)
 {
 	m_description = t_description;
 }
 
-App::App() {}
+ruffini_p::App::App() {}
 
-// App::App(int argc, char *argv[])
+// ruffini_p::App::App(int argc, char *argv[])
 // {
 // }
 
-void App::start()
+void ruffini_p::App::start()
 {
-	using std::cin;
-	using std::cout;
-	using std::getline;
-	using std::string;
-
-	cout << "Write 'END' to terminate the program\n";
+	cout << "Write " << RED << "'END'" << RESET << " to terminate the program\n";
 	cout << "Introduce the polynomial to decompose:\n";
+
 	string raw_polynomial;
 	while (getline(cin, raw_polynomial) && raw_polynomial != "END")
 	{
-		std::vector<Monomial> monomials = tokenizationn(raw_polynomial);
+		vector<Monomial> monomials = tokenization(raw_polynomial);
 		// parse_monomials(monomials); is it sorted and complete?
 		print_monomials(monomials);
 
-		std::size_t s = monomials.size();
+		size_t s = monomials.size();
 
 		int coefficients[s];
 
@@ -105,56 +89,63 @@ void App::start()
 			independent_factors[i] = 0;
 		}
 
-		/**
-		 * TESTS
-		 * x^3+2x^2-x-2
-		 * expected
-		 * 1
-		 */
-
 		ruffini_factorization(coefficients, s, independent_factors);
-		// void ruffini_factorization(int t_coefficients[], std::size_t t_size,
+		// void ruffini_factorization(int t_coefficients[], size_t t_size,
 		// 						   int *t_answer_arr);
-		std::cout << "-- ANSWERS --" << std::endl;
+		cout << "-- ANSWERS --" << endl;
 		for (size_t i = 0; i < monomials.size(); i++)
 		{
-			std::cout << independent_factors[i] << " ";
+			cout << independent_factors[i] << " ";
 		}
-		std::cout << std::endl;
+		cout << endl;
 
 		// Binomial factors[monomials.size() - 1] = ruffini_factorization(monomials);
 	}
 	// parsing(polynomial);
 }
 
-void print_line(int t_arr[], std::size_t t_size)
+void print_line(int t_arr[], size_t t_size)
 {
-	std::cout << "\n";
-	std::cout << " \t| ";
+	cout << "\n";
+	cout << " \t| ";
 	for (size_t i = 0; i < t_size; i++)
 	{
 		const auto c = t_arr[i];
 		if (c > -1)
 		{
-			std::cout << '+';
+			cout << '+';
 		}
-		std::cout << c << " ";
+		cout << c << " ";
 	}
-	std::cout << "\n";
+	cout << "\n";
 }
 
-void App::ruffini_factorization(int *t_coefficients, const std::size_t t_size, int *t_answer_arr)
+template <typename T>
+void print_signed_n(const T &t_number)
+{
+	if (t_number == 0)
+	{
+		cout << " ";
+	}
+	else if (t_number > 0)
+	{
+		cout << "+";
+	}
+	cout << t_number;
+}
+
+void ruffini_p::App::ruffini_factorization(int *t_coefficients, const size_t t_size, int *t_answer_arr)
 {
 	if (t_size <= 2)
 	{
-		std::cout << "I can't reduce more this expression" << std::endl;
+		cout << "I can't reduce any more this expression" << endl;
 		return;
 	}
 
 	// const int highest_order = t_size;
 
-	const int i_minimum = -1;
-	const int i_maximum = 5;
+	const int i_minimum = -10;
+	const int i_maximum = 10;
 
 	for (int i = i_minimum; i <= i_maximum; i++)
 	{
@@ -168,36 +159,24 @@ void App::ruffini_factorization(int *t_coefficients, const std::size_t t_size, i
 		print_line(t_coefficients, t_size);
 
 		// x^3+2x^2-x-2
-		std::cout << "----------------------\n";
-		std::cout << " ";
-		if (i > 0)
-		{
-			std::cout << "+";
-		}
-		std::cout << i << "\t|    ";
+		cout << "----------------------\n";
+		print_signed_n(i);
+		cout << "\t|    ";
 
 		for (size_t j = 1; j < t_size; j++)
 		{
-			// std::cout << "\n/* t_c:" << t_coefficients[j - 1] << " i:" << i << "*/";
 			const int sum_up = a_coefficients[j - 1] * i;
 			a_coefficients[j] = t_coefficients[j] + sum_up;
-			if (sum_up == 0)
-			{
-				std::cout << ' ';
-			}
-			else if (sum_up > 0)
-			{
-				std::cout << "+";
-			}
-			std::cout << sum_up << " ";
+			print_signed_n(sum_up);
+			cout << " ";
 		}
-		std::cout << "\n";
-		std::cout << "----------------------";
+		cout << "\n";
+		cout << "----------------------";
 		print_line(a_coefficients, t_size);
 		if (a_coefficients[t_size - 1] == 0)
 		{
 			t_answer_arr[t_size - 1] = i;
-			std::cout << "\n====> CERO POINT FOUND : " << i << " <====" << std::endl;
+			cout << "\n====> " << YELLOW << "CERO POINT FOUND : " << MAGENTA << i << RESET << " <====" << endl;
 
 			ruffini_factorization(a_coefficients, (t_size - 1), t_answer_arr);
 			return;
@@ -205,105 +184,39 @@ void App::ruffini_factorization(int *t_coefficients, const std::size_t t_size, i
 
 		// print_ruffini_table(i, t_coefficients, t_size, t_answer_arr);
 	}
-	std::cout << "---- NO CERO POINT FOUND -- END PROGRAM" << std::endl;
+	cout << "---- NO CERO POINT FOUND -- END PROGRAM" << endl;
 }
 
-void App::print_ruffini_table(int t_i, int t_coefficients[], std::size_t t_size, int *t_answer_arr)
-{
-	std::cout << "\n";
-	std::cout << " \t| ";
-	for (size_t i = 0; i < t_size; i++)
-	{
-		const auto c = t_coefficients[i];
-		if (c > -1)
-		{
-			std::cout << '+';
-		}
-		std::cout << c << " ";
-	}
-	std::cout << "\n";
-
-	std::cout << "----------------------\n";
-	std::cout << " ";
-	if (t_i == 0)
-	{
-		std::cout << ' ';
-	}
-	else if (t_i > 0)
-	{
-		std::cout << "+";
-	}
-	std::cout << t_i << "\t|\n";
-	std::cout << "----------------------\n";
-
-	std::cout << " \t| ";
-	for (size_t i = t_size; i > 0; i--)
-	{
-		const auto c = t_answer_arr[i];
-		if (c == 0)
-		{
-			std::cout << ' ';
-		}
-		else if (c > 0)
-		{
-			std::cout << '+';
-		}
-		std::cout << c << " ";
-	}
-	std::cout << "\n";
-	std::cout << "\n";
-}
-
-std::vector<Monomial> App::tokenizationn(const std::string &t_polynomial)
+vector<Monomial> ruffini_p::App::tokenization(const string &t_polynomial)
 {
 	int sign = (t_polynomial[0] == '-') ? -1 : 1;
-	std::vector<Monomial> monomials;
-	std::string coefficient{""};
-	std::string power{""};
+	vector<Monomial> monomials;
+	string coefficient{""};
+	string power{""};
 
 	char base{'_'};
 
 	bool reading_coefficient{true};
 	bool reading_power{false};
+	bool no_vars{true};
 	bool first_is_signed = (t_polynomial[0] == '-' || t_polynomial[0] == '+');
-
-	/**
-	 * TESTS:
-	 * signed monomials
-	 * +51x^32
-	 * -17x^21
-	 * -x^2
-	 * +x^9
-	 * +x
-	 * -x
-	 * +86
-	 * -19
-	 * +1
-	 * -1
-	 * unsigned monomials
-	 * 123x^17
-	 * 295x
-	 * x^7
-	 * x
-	 * 5
-	 * 1
-	 * signed polinomials
-	 * -7x^3+2x^2+x-5
-	 * +2x^3-10x^2+5x
-	 * unsigned polinomials
-	 * 7x^3+2x^2+x-5
-	 * 2x^3-10x^2+5x
-	 */
 
 	// for (size_t i = 0; i < t_polynomial.size(); i++)
 	// {
 	// const char ch = t_polynomial[i];
 	for (auto ch : t_polynomial)
 	{
-		// std::cout << ch << std::endl;
+		// cout << ch << endl;
 		if (first_is_signed)
 		{
 			first_is_signed = false;
+			continue;
+		}
+
+		if (ch == '^')
+		{
+			// reading_coefficient = false;
+			// reading_power = true;
 			continue;
 		}
 
@@ -324,7 +237,7 @@ std::vector<Monomial> App::tokenizationn(const std::string &t_polynomial)
 			reading_coefficient = true;
 			reading_power = false;
 
-			Monomial monomial(std::stoi(coefficient) * sign, base, std::stoi(power));
+			Monomial monomial(stoi(coefficient) * sign, base, stoi(power));
 			monomials.push_back(monomial);
 
 			sign = 1;
@@ -342,7 +255,7 @@ std::vector<Monomial> App::tokenizationn(const std::string &t_polynomial)
 			reading_coefficient = true;
 			reading_power = false;
 
-			Monomial monomial(std::stoi(coefficient) * sign, base, std::stoi(power));
+			Monomial monomial(stoi(coefficient) * sign, base, stoi(power));
 			monomials.push_back(monomial);
 
 			sign = -1;
@@ -363,6 +276,8 @@ std::vector<Monomial> App::tokenizationn(const std::string &t_polynomial)
 		}
 		else if (is_a_letter)
 		{
+			no_vars = false;
+
 			if (coefficient.empty() && reading_coefficient)
 			{
 				coefficient = "1";
@@ -372,21 +287,6 @@ std::vector<Monomial> App::tokenizationn(const std::string &t_polynomial)
 			reading_coefficient = false;
 			reading_power = true;
 		}
-		else if (ch == '^')
-		{
-			reading_coefficient = false;
-			reading_power = true;
-		}
-		// else // error
-		// {
-		// }
-		// std::cout << "----------- STATE --------- : " << ch << std::endl;
-		// std::cout << "reading coeff : " << reading_coefficient << std::endl;
-		// std::cout << "reading power : " << reading_power << std::endl;
-		// std::cout << "sign  : " << sign << std::endl;
-		// std::cout << "coeff : " << coefficient << std::endl;
-		// std::cout << "base : " << base << std::endl;
-		// std::cout << "power : " << power << std::endl;
 	}
 
 	if (power.empty())
@@ -397,15 +297,15 @@ std::vector<Monomial> App::tokenizationn(const std::string &t_polynomial)
 	{
 		coefficient = "1";
 	}
-	// std::cout << "----------- LAST STATE --------- : " << std::endl;
-	// std::cout << "reading coeff : " << reading_coefficient << std::endl;
-	// std::cout << "reading power : " << reading_power << std::endl;
-	// std::cout << "sign  : " << sign << std::endl;
-	// std::cout << "coeff : " << coefficient << std::endl;
-	// std::cout << "base  : " << base << std::endl;
-	// std::cout << "power : " << power << std::endl;
+	// cout << "----------- LAST STATE --------- : " << endl;
+	// cout << "reading coeff : " << reading_coefficient << endl;
+	// cout << "reading power : " << reading_power << endl;
+	// cout << "sign  : " << sign << endl;
+	// cout << "coeff : " << coefficient << endl;
+	// cout << "base  : " << base << endl;
+	// cout << "power : " << power << endl;
 
-	Monomial monomial(std::stoi(coefficient) * sign, base, std::stoi(power));
+	Monomial monomial(stoi(coefficient) * sign, base, stoi(power));
 	monomials.push_back(monomial);
 
 	// print_monomials(monomials);
@@ -414,13 +314,11 @@ std::vector<Monomial> App::tokenizationn(const std::string &t_polynomial)
 	return monomials;
 }
 
-void App::print_monomials(std::vector<Monomial> &t_monomials)
+void ruffini_p::App::print_monomials(const vector<Monomial> &t_monomials)
 {
-	std::cout << "PRINTING MONOMIALS" << std::endl;
+	cout << "PRINTING MONOMIALS" << endl;
 	for (const auto &[m_coefficient, m_base, m_power] : t_monomials)
 	{
-		std::cout << m_coefficient << m_base << '^' << m_power << std::endl;
+		cout << m_coefficient << m_base << '^' << m_power << endl;
 	}
 }
-
-#endif // __APP_H__

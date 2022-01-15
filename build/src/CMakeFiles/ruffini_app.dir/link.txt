@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/ruffini_app.dir/main.cpp.o  -o ruffini_app  ../include/libR_app.a 

@@ -1,3 +1,6 @@
+#ifndef __COLORIZER_H__
+#define __COLORIZER_H__
+
 // Copyright (C) 2022 José Enrique Vilca Campana
 //
 // This program is free software: you can redistribute it and/or modify
@@ -13,34 +16,4 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-// #include <iostream>
-#include "src/ruffini/App.cpp"
-// #include <configuration.h>
-
-using namespace std;
-
-// int main(int argc, char *argv[])
-int main()
-{
-	// cout << "The number of arguments is:" << argc << endl;
-	// cout << "The arguments are:";
-
-	// for (unsigned i = 1; i < argc; i++)
-	// {
-	// 	cout << argv[i];
-	// }
-	// cout << endl;
-
-	App app;
-	// App app(argc, argv);
-
-	app.set_app_name("ruffini");
-	app.set_app_version("1.0.0");
-	// app.set_auto_print_help(true);
-
-	app.set_app_description("Decompose polynomials through the ruffini method");
-	app.start();
-	// app.print_monomials();
-
-	return 0;
-}
+#endif // __COLORIZER_H__

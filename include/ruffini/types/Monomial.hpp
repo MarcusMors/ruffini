@@ -16,7 +16,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-// #include "../constants/enums.hpp"
+#include <iostream>
 #include <string>
 
 class Monomial
@@ -55,7 +55,14 @@ public:
 	// 		 char &t_base, const std::string &t_power);
 	// Monomial(const std::string &t_coefficient,
 	// 		 char &t_base, const int &t_power);
+
+	void print();
 };
+
+void Monomial::print()
+{
+	std::cout << (m_coefficient > 0 ? "+" : "") << m_coefficient << m_base << '^' << m_power << std::endl;
+}
 
 // Monomial::Monomial() {}
 Monomial::Monomial(const Monomial &t_monomial)

@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/ruffini/App.hpp
+types/Monomial.hpp
+../include/ruffini/types/Monomial.hpp
+string
+-
+vector
+-
+
+../include/ruffini/types/Monomial.hpp
+iostream
+-
+string
+-
+
+/home/marcus/+projects/math/ruffini/src/ruffini/App.cpp
+ruffini/App.hpp
+-
+iostream
+-
+

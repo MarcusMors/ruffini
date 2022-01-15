@@ -2,6 +2,7 @@
 helper
 mock
 aux
+build
 
 # Prerequisites
 *.d

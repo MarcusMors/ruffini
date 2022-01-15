@@ -1,2 +1,0 @@
-/usr/bin/ar qc libR_app.a  CMakeFiles/R_app.dir/__/src/ruffini/App.cpp.o
-/usr/bin/ranlib libR_app.a

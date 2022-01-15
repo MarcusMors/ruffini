@@ -1,8 +1,0 @@
-/home/marcus/+projects/math/ruffini/build/CMakeFiles/rebuild_cache.dir
-/home/marcus/+projects/math/ruffini/build/CMakeFiles/edit_cache.dir
-/home/marcus/+projects/math/ruffini/build/include/CMakeFiles/rebuild_cache.dir
-/home/marcus/+projects/math/ruffini/build/include/CMakeFiles/edit_cache.dir
-/home/marcus/+projects/math/ruffini/build/include/CMakeFiles/R_app.dir
-/home/marcus/+projects/math/ruffini/build/src/CMakeFiles/rebuild_cache.dir
-/home/marcus/+projects/math/ruffini/build/src/CMakeFiles/edit_cache.dir
-/home/marcus/+projects/math/ruffini/build/src/CMakeFiles/ruffini_app.dir

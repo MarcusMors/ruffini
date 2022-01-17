@@ -153,8 +153,8 @@ void App::ruffini_factorization(int *t_coefficients, const std::size_t t_size, i
 
 	// const int highest_order = t_size;
 
-	const int i_minimum = -1;
-	const int i_maximum = 5;
+	const int i_minimum = -10;
+	const int i_maximum = 10;
 
 	for (int i = i_minimum; i <= i_maximum; i++)
 	{
